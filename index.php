@@ -1,7 +1,14 @@
 <!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
 <html>
-<head> 
-	<style type="text/css">
+    <head>
+        <meta charset="UTF-8">
+        <title>Tip Calculator</title>
+        	<style type="text/css">
 	body{
 		background-color: Beige;
 	}
@@ -16,7 +23,6 @@
         left:40%;
         padding-left: 15px;
         padding-right: 15px;
-
 	}
 	.inner_container{
 		border-style: solid;
@@ -29,22 +35,32 @@
     	position: relative;
 	}
 	.input_tag{
-
 		text-align: center;
 	}
+        #diserr{
+           color: red;
+        }
 	</style>
+        <script type="text/javascript" >
+            function validate(){
+                if(isNaN(calform.subtotal.value)){
+                    document.getElementById('diserr').innerHTML = "Invalid input! please enter a number";
+                }
+                else{
+                    document.getElementById('diserr').innerHTML = "";
+                }
 
-
-</head>
-<title>Tip Calculator</title>
-
-<body>
-<div class="container">
-	<form method="post">
+            }
+            </script>
+        
+    </head>
+    <body>
+        <div class="container">
+	<form method="post" name="calform">
 		<h1 align="center">Tip Calculator</h1>
-					Bill subtotal:$<input type="text" name="subtotal" 
+                Bill subtotal:$<input type="text" name="subtotal"  onkeyup="validate()"
 					value="<?php echo isset($_POST['subtotal']) && is_numeric($_POST['subtotal']) ? $_POST['subtotal'] : '0' ?>"  								
-					onfocus="if (this.value == '0') {this.value = '';}">
+                                        onfocus="if (this.value == '0') {this.value = '';}" size="15"><div id="diserr"   ></div>
 		</br>
 		</br>
 		Tip percentage:
@@ -52,7 +68,6 @@
 		</br>
 			<?php  
 			$percents = array("10", "15", "20"); //array of tip 
-
 			foreach ($percents as $percent) 
 			{		
 			?>
@@ -62,49 +77,23 @@
 				echo "$percent"."%";
 			}
 				echo "</br>";
-
+                                
 			?>
+<!--                                  <input type="radio" name="tip" value="<?php //echo $_POST['customtip']; ?>" <?php //if (isset($_POST['customtip'])&& $_POST['tip'] == $_POST['customtip'])  echo ' checked="checked"';?>>
+                                 CustomTip:<input type="text" name="customtip" 
+					value="<?php //echo isset($_POST['customtip']) && is_numeric($_POST['customtip']) ? $_POST['customtip'] : '0' ?>"  													 								
+					onfocus="if (this.value == '0') {this.value = '';}" size="5">%<br/> -->
 			</br>
 			<div class="input_tag" >
 				<button  id="btn"   >Submit</button>
 			</div>
 
 	</form>
-	<script>
-			// $(document).ready(function(){
-				 
-			//function check() {
-			// 	//var subtotal_val = document.getElementById("sub_tot_input").value;
-			// <?php
-			// 	if(!is_numeric($_POST['subtotal']))){
-			// ?>
-
-			// 	document.getElementById("btn").onclick = function(){
-			// 			document.getElementById("bill_subtotal").style.color = "blue";
-			// 			document.getElementById("sub_tot_input").style.color = "blue";
-			// 	}
-						    
-			// <?php
-
-			// 	}
-			// 	else{
-			// ?>
-			// 			document.getElementById("btn").onclick = function(){
-			// 				document.getElementById("bill_subtotal").style.color = "black";
-			// 			    document.getElementById("sub_tot_input").style.color = "black";
-			// 			}
-			// <?php
-			// }
-			//   ?>  //document.getElementById("demo").innerHTML = "Hello World";
-
-
-			//}
-		</script>
-
 	</br>
 	
 
 	<?php
+        
 
 		if(isset($_POST['tip'])  && is_numeric($_POST['subtotal']) && $_POST['subtotal']>0) 
 		{
@@ -114,28 +103,40 @@
 				<?php	
 					if(is_numeric($_POST['subtotal']) && is_numeric($_POST['tip']))
 					{
-						$selected_radio =$_POST['subtotal']*($_POST['tip']/100);
-				        echo number_format((float)$selected_radio, 2, '.', '');
+                                            $selected_radio =$_POST['subtotal']*($_POST['tip']/100);
+                                            echo number_format((float)$selected_radio, 2, '.', '');
 				        
-			        }
+                                        }
+//                                        else if(is_numeric($_POST['subtotal']) && is_numeric($_POST['tip'])&& is_numeric($_POST['customtip'])){
+//						$selected_radio1 =$_POST['subtotal']*($_POST['customtip']/100);
+//                                                echo number_format((float)$selected_radio1, 2, '.', '');                                            
+//                                        }
 					
 				?> </br>
 			Total: $
 				<?php
-
-					if(is_numeric($_POST['subtotal']) && is_numeric($_POST['tip']) )
+					if(is_numeric($_POST['subtotal']) && is_numeric($_POST['tip']))
 					{
 					
 						$result = $_POST['subtotal']+($_POST['subtotal']*($_POST['tip']/100));// = $_POST['tip'];
-				        echo number_format((float)$result, 2, '.', '');
-
+                                                echo number_format((float)$result, 2, '.', '');
 					}
-
+//                                        else if(is_numeric($_POST['subtotal']) && is_numeric($_POST['tip'])&& is_numeric($_POST['customtip'])){
+//						$result2 =$_POST['subtotal']+($_POST['subtotal']*($_POST['customtip']));
+//                                                echo number_format((float)$result2, 2, '.', '');                                            
+//                                        }
 		}
+        
+//                else{
+//                                            echo '<script language="javascript">';
+//                                            echo 'alert("please enter valid input")';
+//                                            echo '</script>';
+//                                        }
 			?>
 			
 			</div>
 		</div>
 </body>
+
 </html>
 
